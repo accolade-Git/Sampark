@@ -7,13 +7,14 @@ import random
 import threading
 import time
 
+
 class MainWindow(QMainWindow):
     # Define a signal to update the ODO count in the UI
     update_odo_signal = pyqtSignal(int)
     update_engine_signal = pyqtSignal(int)
     update_vehiclespeed_signal = pyqtSignal(int)
 
-    def __init__(self, channel='PCAN_USBBUS1', bitrate=500000):
+    def __init__(self, channel='PCAN_USBBUS1', bitrate=250000):
         super().__init__()
         try:
             self.bus = can.interface.Bus(channel=channel, interface='pcan', bitrate=bitrate)
