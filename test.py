@@ -116,10 +116,10 @@ class MainWindow(QMainWindow):
             print(f"Failed to send engine speed message: {e}")
 
     def odo_funn(self):
-        ODO_can_id = 0x361
+        ODO_can_id = 0x18FEC100
         message = can.Message(arbitration_id=ODO_can_id, data=[0] * 8, is_extended_id=False)
 
-        if self.current_odo_value > 1677721500:
+        if self.current_odo_value > 21055406:
             self.current_odo_value = 0
         self.current_odo_value += 5
 
