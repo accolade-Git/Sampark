@@ -70,14 +70,17 @@ class MainWindow(QMainWindow):
         while self.running:
             if self.ui.checkBox.isChecked():
                 self.vehicleSpeed_funn()
+                time.sleep(0.1)
 
             if self.ui.checkBox_2.isChecked():
                 self.EngineSpeed()
+                time.sleep(0.1)
 
             if self.ui.checkBox_3.isChecked():
                 self.odo_funn()
+                time.sleep(0.1)
 
-            time.sleep(0.1)  # Delay between checks
+            #time.sleep(0.1)  # Delay between checks
 
     def vehicleSpeed_funn(self):
         """Send vehicle speed CAN message."""
