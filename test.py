@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
 
         VehicleSpeed_int = random.randint(0, 250)
         self.vehiclespeed_count +=1
-        message.data[1] = VehicleSpeed_int & 0x00FF  # Set the second byte
+        message.data[2] = VehicleSpeed_int & 0x00FF  # Set the third byte (index 2)
         self.update_vehiclespeed_signal.emit(self.vehiclespeed_count)
 
         try:
@@ -106,8 +106,8 @@ class MainWindow(QMainWindow):
 
         self.update_engine_signal.emit(self.enginespeed_count)
 
-        message.data[2] = scaled_enginespeed & 0x00FF  # Set the 3rd byte
-        message.data[3] = (scaled_enginespeed >> 8) & 0x00FF  # Set the 4th byte
+        message.data[3] = scaled_enginespeed & 0x00FF         # Set the 4th byte (index 3)
+        message.data[4] = (scaled_enginespeed >> 8) & 0x00FF   # Set the 5th byte (index 4)
 
         try:
             self.bus.send(message)
@@ -128,11 +128,13 @@ class MainWindow(QMainWindow):
         # Emit the signal to update the ODO count in the UI
         self.update_odo_signal.emit(self.odo_increment_count)
 
-        print('ODO increment count:', self.odo_increment_count)
+        #print('ODO increment count:', self.odo_increment_count)
 
-        message.data[2] = (self.current_odo_value >> 16) & 0xFF  # Byte 2
-        message.data[3] = (self.current_odo_value >> 8) & 0xFF   # Byte 3
-        message.data[4] = self.current_odo_value & 0xFF          # Byte 4
+        # Set ODO value in bytes 0, 1, 2, 3
+        message.data[0] = (self.current_odo_value >> 24) & 0xFF  # Byte 0
+        message.data[1] = (self.current_odo_value >> 16) & 0xFF  # Byte 1
+        message.data[2] = (self.current_odo_value >> 8) & 0xFF   # Byte 2
+        message.data[3] = self.current_odo_value & 0xFF          # Byte 3
 
         try:
             self.bus.send(message)
